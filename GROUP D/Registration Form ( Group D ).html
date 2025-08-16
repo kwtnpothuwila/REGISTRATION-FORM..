@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Registration Form</title>
+        <style>
+            body{
+                margin:0;
+                font-family:Arial, sans-serif;
+                background: url(blue.avif)no-repeat center center/cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .form-container {
+        background: linear-gradient(135deg, rgba(26, 38, 109, 0.95), rgba(49, 184, 218, 0.9));
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+        width: 100%;
+        max-width: 500px;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    h2{
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 26px;
+        background: linear-gradient(90deg,#ffffff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    label{
+        font-weight:bold;
+        display: block;
+        margin: top 15px;
+    }
+    input,select,button,textarea{
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: rgba(233, 228, 228, 0.1);
+        color: white;
+        font-size: 14px;
+        transition: 0.3s ease;
+    }
+    input:focus,select:focus,textarea:focus{
+        background: rgba(77, 228, 248, 0.822);
+        border: 2px solid #06060f;
+    }
+
+    .checkbox-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+    }
+    .checkbox-group label {
+        font-weight: normal;
+    }
+    input[type="radio"], input[type="checkbox"] {
+        width: auto;
+        margin-right: 5px;
+    }
+    button {
+        background: linear-gradient(135deg, #161111, #0021b3);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 15px;
+        transition: 0.3s ease;
+    }
+    button:hover {
+        background: linear-gradient(135deg, #b30000, #660000);
+        transform: scale(1.05);
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+ </head>
+ <body>
+ <div class="form-container">
+    <h2>Registration form</h2>
+    <form name="regForm"id="regForm"onsubmit="validateForm(); return false;">
+        <label>Username</label>
+        <input type="text"name="uname">
+        <label>
+            Password (8 characters)
+        </label>
+        <input type="password" name="password">
+        <label>Confirm Password</label>
+        <input type="password" name="confirmPassword">
+
+        <label>Date Of Birth</label>
+        <input type="date" name="dob">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="Enter 10-digit number">
+
+        <label>Gender</label>
+        <div class="checkbox-group">
+            <label><input type="radio" name="gender"value="male">Male</label>
+            <label><input type="radio"name="gender"value="Female">Female</label>
+            <label><input type="radio" name="gender" value="Other"> Other</label>
+        </div>
+
+        <label>Educational Qualifications</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="qual" value="O/L"> O/L</label>
+            <label><input type="checkbox" name="qual" value="A/L"> A/L</label>
+            <label><input type="checkbox" name="qual" value="Degree" id="degreeCheck"> Degree</label>
+        </div>
+
+        <div id="degreeDetails" class="hidden">
+            <label>Degree Details</label>
+            <textarea name="degreeText" placeholder="Enter your degree name and university"></textarea>
+        </div>
+
+        <label>Country</label>
+        <select name="country">
+            <option value="">Select Country</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+        </select>
+
+        <div class="checkbox-group" style="margin-top:15px;">
+            <label><input type="checkbox" name="confirmBox"> I confirm these details are true</label>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script language="javascript" type="text/javascript">
+    var degreeCheck = document.getElementById("degreeCheck");
+    var degreeDetails = document.getElementById("degreeDetails");
+    degreeCheck.onclick = function() {
+        if (degreeCheck.checked) degreeDetails.classList.remove("hidden");
+        else degreeDetails.classList.add("hidden");
+    }
+
+    function validateForm() {
+        var f = document.forms["regForm"];
+        var uname = f["uname"].value.trim();
+        var password = f["password"].value;
+        var confirmPassword = f["confirmPassword"].value;
+        var dob = f["dob"].value;
+        var phone = f["phone"].value;
+        var gender = f["gender"];
+        var edu = f["qual"];
+        var country = f["country"].value;
+        var confirmBox = f["confirmBox"].checked;
+
+        if (uname.length < 1) { alert("⚠ Please enter username"); return; }
+        if (password.length < 8) { alert("⚠ Password must be at least 8 characters"); return; }
+        if (confirmPassword.length < 1) { alert("⚠ Please confirm your password"); return; }
+        if (password !== confirmPassword) { alert("⚠ Passwords do not match"); return; }
+        if (dob.length < 1) { alert("⚠ Please select your Date of Birth"); return; }
+        if (phone.length < 1) { alert("⚠ Please enter phone number"); return; }
+        if (!/^\d{10}$/.test(phone)) { alert("⚠ Phone number must be 10 digits"); return; }
+
+        var genderSelected = false;
+        for (var i = 0; i < gender.length; i++) { if (gender[i].checked) genderSelected = true; }
+        if (!genderSelected) { alert("⚠ Please select your gender"); return; }
+
+        var eduSelected = false;
+        for (var i = 0; i < edu.length; i++) { if (edu[i].checked) eduSelected = true; }
+        if (!eduSelected) { alert("⚠ Please select at least one educational qualification"); return; }
+
+        if (country == "") { alert("⚠ Please select your country"); return; }
+        if (!confirmBox) { alert("⚠ You must confirm these details are true"); return; }
+
+        alert("✅ Registration Successful!\nWelcome " + uname + "!");
+        f.reset();
+        degreeDetails.classList.add("hidden");
+    }
+</script>
+
+</body>
+</html>
+
+
+
+        
+ 
